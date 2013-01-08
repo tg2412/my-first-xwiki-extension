@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+  <modelVersion>4.0.0</modelVersion>
+
+  <!--
+    * By setting the parent to org.xwiki.platform:xwiki-platform-core your dependency versions
+    * will be synchronized with the versions in the core.
+   -->
+  <parent>
+    <groupId>org.xwiki.platform</groupId>
+    <artifactId>xwiki-platform-core</artifactId>
+    <version>4.4-SNAPSHOT</version>
+  </parent>
+
+  <!--
+    * You may also choose to include only the dependency versions in XWiki Commons but not
+    * in the core.
+  <parent>
+    <groupId>org.xwiki.commons</groupId>
+    <artifactId>xwiki-commons-core</artifactId>
+    <version>4.4-SNAPSHOT</version>
+  </parent> -->
+
+  <groupId>org.xwiki.commons</groupId>
+  <packaging>xar</packaging>
+
+  <!-- The name of your extension, this should be the same as the directory name. -->
+  <artifactId>my-first-xwiki-extension</artifactId>
+
+  <!-- Pretty name and human friendly description -->
+  <name>Contrib - Example - My First Extension!</name>
+  <description>
+A tutorial for developing your own extensions which are installable by any XWiki user using
+the Extension Manager. This extension includes documentation which walks the developer through
+the process of developing and publishing their own extension with bundled pages and attachments.
+  </description>
+  
+  <!-- If you don't specify a parent, you'll need to set the version manually. -->
+  <version>1.0</version>
+
+  <distributionManagement>
+    <repository>
+      <id>my-local-maven-repository</id>
+      <name>My local maven repository</name>
+      <!-- This represents a directory in your repository where a Maven repository will be deployed. -->
+      <url>${project.baseUri}/repo</url>
+    </repository>
+  </distributionManagement>
+
+  <dependencies>
+    <!--
+      * The Extension Manager will resolve dependencies when installing
+      * your extension and automatically download and install them, they
+      * may be maven JAR dependenices or XWiki XAR dependencies containing
+      * other extensions which will be recursively loaded.
+    <dependency>
+      <groupId>org.xwiki.contrib</groupId>
+      <artifactId>my-xwiki-extension-jar</artifactId>
+      <version>${project.version}</version>
+      <scope>runtime</scope>
+    </dependency> -->
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <!--
+          * Uncomment this section to exclude checkstyle validation of java files.
+          * Note that code which fails XWiki's checkstyle rules is unlikely to be
+          * accepted for distribution with XWiki Enterprise but it can still be installed
+          * from the extension manager
+        <configuration>
+          <excludes>
+            **/*
+          </excludes>
+        </configuration> -->
+      </plugin>
+
+      <!--
+        * ADVANCED: (optional)
+        * Add attachments during the XAR packaging process.
+        * This allows you to manage attachments as files in the repository rather than as blobs in
+        * an xml file.
+        -->
+      <plugin>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-tool-xmldoc-update-plugin</artifactId>
+        <version>4.4</version>
+        <executions>
+
+          <!-- Use an execution block for each attachment to add. -->
+          <execution>
+            <goals><goal>attach</goal></goals>
+            <phase>process-resources</phase>
+
+            <!-- any unique string -->
+            <id>attach-exporting_xar.png</id>
+
+            <configuration>
+              <!-- The file to be attached. -->
+              <file>${project.build.outputDirectory}/attachments/exporting_xar.png</file>
+
+              <!-- The exported XWiki Document to attach the file to. -->
+              <sourceDocument>${project.build.outputDirectory}/MyCompany/MyFirstExtension.xml</sourceDocument>
+            </configuration>
+          </execution>
+
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

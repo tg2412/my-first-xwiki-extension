@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+<web>MyCompany</web>
+<name>MyFirstExtension</name>
+<language></language>
+<defaultLanguage></defaultLanguage>
+<translation>0</translation>
+<parent>xwiki:XWiki.WebHome</parent>
+<creator>xwiki:XWiki.Admin</creator>
+<author>xwiki:XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+<creationDate>1357607545000</creationDate>
+<date>1357618282000</date>
+<contentUpdateDate>1357618282000</contentUpdateDate>
+<version>1.1</version>
+<title>My First Extension!</title>
+<template></template>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>false</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>false</hidden>
+<content>Congratulations on installing My First Extension!
+You can use this page as a tutorial to help you build extensions of your own and get them published
+so users can install them using the XWiki Extension Manager.
+
+= Step 1 - Make your XWiki Application =
+Your application can be as simple as a few wiki pages or as complex as multiple core components including external **.jar** libraries. When you're done you will probably have a few XWiki pages which provide the user interface for your application.
+
+= Step 2 - Get the repository =
+Clone the [[git repository located here&gt;&gt;http://purl.org/xwiki/contrib/my-first-xwiki-extension]]. Notice the file ##src/main/resources/MyCompany/MyFirstExtension.xml## this is the exported form of this page here.
+
+= Step 3 - Export your application =
+For each page which makes up your application, use the //export as xar// feature as shown below to get the **.xar** file.
+After downloading the **.xar** file, rename that file, changing the extension to **.zip**. Then open it using a zip file handling utility on your system. Inside you will find a directory (folder) named after the //Space// where your document was located, copy this directory into the ##src/main/resources## directory in the //my-first-extension// git repository.
+
+image:exporting_xar.png
+
+= Step 4 - Declare your dependencies =
+If your application contains XWiki components and/or third party libraries, declare dependencies on them in the ##pom.xml## file just as any other Maven dependency.
+
+= Step 5 - Verify that your extension builds =
+To check that the ##pom.xml## file was properly crafted and the XML files are okay, run ##mvn clean install## in the repository directory. You may see errors from the exported XML files such as follows:
+
+{{code language=none}}
+[INFO] --- xwiki-commons-tool-xar-plugin:4.4-SNAPSHOT:verify (default-verify) @ my-first-xwiki-extension ---
+[INFO] Checking validity of XAR XML files...
+[INFO]   Verifying [MyCompany/MyFirstExtension.xml]... errors
+[INFO]   - Author must be [xwiki:XWiki.Admin] but was [XWiki.Admin]
+[INFO]   - Content Author must be [xwiki:XWiki.Admin] but was [XWiki.Admin]
+[INFO]   - Creator must be [xwiki:XWiki.Admin] but was [XWiki.Admin]
+[INFO]   - Parent must not be empty
+[INFO]   - Version must be [1.1] but was [4.3]
+[INFO]   - Default Language must be empty but was [en]
+{{/code}}
+
+This is caused by XWiki export failing to produce a canonical XML file, you must edit the XML files manually to correct the problems.
+</content></xwikidoc>
